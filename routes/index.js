@@ -56,10 +56,10 @@ router.get('/beneficiosClientes', (req, res) => {
         .aggregate([
             { $unwind: "$cliente.plan.beneficios" },
             {
-                $group: {
+                $project: {
                     idCliente: "$cliente.numeroCliente",
-                    nombresBeneficios: { "$push": "$cliente.plan.beneficios" },
-                    cantidadBeneficios: { $sum: 1 }
+                    cantidadBeneficios: { $sum: 1 },
+                    "cliente.plan.beneficios":1
                 }
             },
             { $limit: 10 }
